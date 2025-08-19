@@ -1,9 +1,7 @@
 package com.pay_manager.pay_manager.infrastructure.controllers;
-import com.pay_manager.pay_manager.application.CompleteObalance;
-import com.pay_manager.pay_manager.application.CreatorOutstandingBalance;
-import com.pay_manager.pay_manager.application.GetAllOutstandingBalance;
-import com.pay_manager.pay_manager.application.RemoverOutstandingBalance;
+import com.pay_manager.pay_manager.application.*;
 import com.pay_manager.pay_manager.domain.OutstandingBalance;
+import com.pay_manager.pay_manager.domain.exceptions.OutstandingBalanceNotFoundException;
 import com.pay_manager.pay_manager.infrastructure.controllers.apiResponse.ApiResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +18,19 @@ public class OutstandingBalanceController {
     private final GetAllOutstandingBalance getAllOutstandingBalance;
     private final RemoverOutstandingBalance removerOutstandingBalance;
     private final CompleteObalance completeObalance;
+    private final FindOutstandingBalanceById findOutstandingBalanceById;
 
     @Autowired
     public OutstandingBalanceController(CreatorOutstandingBalance createOutstandingBalance,
                                         GetAllOutstandingBalance getAllOutstandingBalance,
                                         RemoverOutstandingBalance removerOutstandingBalance,
-                                        CompleteObalance completeObalance) {
+                                        CompleteObalance completeObalance,
+                                        FindOutstandingBalanceById findOutstandingBalanceById) {
         this.createOutstandingBalance = createOutstandingBalance;
         this.getAllOutstandingBalance = getAllOutstandingBalance;
         this.removerOutstandingBalance = removerOutstandingBalance;
         this.completeObalance = completeObalance;
+        this.findOutstandingBalanceById = findOutstandingBalanceById;
     }
 
     @PostMapping
@@ -73,6 +74,19 @@ public class OutstandingBalanceController {
             return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error("Outstanding balance with ID " + id + " not found"));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<OutstandingBalance>>findById( @PathVariable Long id ) {
+        try {
+            OutstandingBalance ouBalance = findOutstandingBalanceById.findOutstandingBalanceById(id);
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .body(ApiResponse.success("Outstanding balance found successfully",ouBalance));
+        }catch (OutstandingBalanceNotFoundException ex){
+            return ResponseEntity.status(HttpStatus
+                    .BAD_REQUEST).body(ApiResponse.error("Outstanding Balance Not Found" + ex.getMessage()));
         }
     }
 

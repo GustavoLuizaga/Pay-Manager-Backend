@@ -1,4 +1,4 @@
-package com.pay_manager.pay_manager.domain.Exceptions;
+package com.pay_manager.pay_manager.domain.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

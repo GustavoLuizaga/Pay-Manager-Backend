@@ -1,8 +1,9 @@
 package com.pay_manager.pay_manager.infrastructure.controllers;
 
 import com.pay_manager.pay_manager.application.PayBalanceUseCase;
-import com.pay_manager.pay_manager.domain.Exceptions.OutstandingBalanceNotFoundException;
+import com.pay_manager.pay_manager.domain.exceptions.OutstandingBalanceNotFoundException;
 import com.pay_manager.pay_manager.domain.PayBalance;
+import com.pay_manager.pay_manager.infrastructure.controllers.apiResponse.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PayBalanceController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<?> payBalance(@RequestBody PayBalance payBalanceRequest, @PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> payBalance(@RequestBody PayBalance payBalanceRequest, @PathVariable Long id) {
         try {
             boolean pay = payBalanceUseCase.payBalance(
                     id,
@@ -30,12 +31,16 @@ public class PayBalanceController {
             );
 
             if (pay) {
-                return ResponseEntity.ok("Successful payment");
+                return ResponseEntity
+                        .status(HttpStatus.CREATED)
+                        .body(ApiResponse.success("Payment created successfully"));
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid payment");
+            return ResponseEntity.status(HttpStatus
+                    .BAD_REQUEST).body(ApiResponse.error("Invalid payment"));
 
         } catch (OutstandingBalanceNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+            return ResponseEntity.status(HttpStatus
+                    .BAD_REQUEST).body(ApiResponse.error("Outstanding Balance Not Found" + ex.getMessage()));
         }
     }
 

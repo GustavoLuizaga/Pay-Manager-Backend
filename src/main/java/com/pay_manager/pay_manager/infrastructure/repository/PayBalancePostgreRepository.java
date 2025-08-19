@@ -1,7 +1,7 @@
-package com.pay_manager.pay_manager.infrastructure.repositorys;
+package com.pay_manager.pay_manager.infrastructure.repository;
 
 import com.pay_manager.pay_manager.domain.repository.PayBalanceRepository;
-import com.pay_manager.pay_manager.infrastructure.repositorys.jpa.PayBalanceJpaRepository;
+import com.pay_manager.pay_manager.infrastructure.repository.jpa.PayBalanceJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

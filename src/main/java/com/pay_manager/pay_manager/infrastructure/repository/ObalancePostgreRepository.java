@@ -1,19 +1,16 @@
-package com.pay_manager.pay_manager.infrastructure.repositorys;
-import com.pay_manager.pay_manager.domain.CalculateBalance;
-import com.pay_manager.pay_manager.domain.Exceptions.OutstandingBalanceNotFoundException;
+package com.pay_manager.pay_manager.infrastructure.repository;
+import com.pay_manager.pay_manager.domain.exceptions.OutstandingBalanceNotFoundException;
 import com.pay_manager.pay_manager.domain.OutstandingBalance;
 import com.pay_manager.pay_manager.domain.repository.OutstandingBalanceRepository;
-import com.pay_manager.pay_manager.domain.PayBalance;
 import com.pay_manager.pay_manager.infrastructure.mappers.OutstandingBalanceMapper;
-import com.pay_manager.pay_manager.infrastructure.repositorys.jpa.OutstandingBalanceJpaRepository;
+import com.pay_manager.pay_manager.infrastructure.repository.jpa.OutstandingBalanceJpaRepository;
 import com.pay_manager.pay_manager.infrastructure.models.OutstandingBalanceModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Sort;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 public class ObalancePostgreRepository implements OutstandingBalanceRepository {
@@ -84,24 +81,7 @@ public class ObalancePostgreRepository implements OutstandingBalanceRepository {
     public OutstandingBalance findByIdOutstandingBalance(Long outstandingBalanceId) {
         OutstandingBalanceModel model = jpaRepository.findById(outstandingBalanceId)
                 .orElseThrow(() -> new OutstandingBalanceNotFoundException(outstandingBalanceId));
-        List<PayBalance> pays = model.getPayBalances().stream()
-                .map(pb -> new PayBalance(
-                        pb.getDatePay(),
-                        pb.getMountPay(),
-                        pb.getPayType(),
-                        pb.getPayBalanceId()
-                ))
-                .toList();
-        return new OutstandingBalance(
-                model.getDateStart(),
-                model.getTitle(),
-                model.getDescription(),
-                model.getDateEnd(),
-                model.getFullName(),
-                model.getMount(),
-                model.isState(),
-                pays
-        );
+        return new OutstandingBalanceMapper().toDomain(model);
     }
 
 
