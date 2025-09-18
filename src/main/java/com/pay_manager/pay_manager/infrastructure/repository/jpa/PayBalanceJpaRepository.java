@@ -16,6 +16,6 @@ public interface PayBalanceJpaRepository extends JpaRepository<PayBalanceModel, 
     @Query(value = "INSERT INTO pay_balance_model (outstanding_balance_id, date_pay, mount_pay, pay_type) VALUES (:outstandingBalanceId, :datePay, :mountPay, :payType)", nativeQuery = true)
     void insertPayBalance(@Param("outstandingBalanceId") Long outstandingBalanceId,
                           @Param("datePay") LocalDate datePay,
-                          @Param("mountPay") BigDecimal mountPay,
+                          @Param("mountPay") int mountPay,
                           @Param("payType") String payType);
 }

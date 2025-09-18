@@ -39,12 +39,11 @@ public class ObalancePostgreRepository implements OutstandingBalanceRepository {
 
     @Override
     public boolean deleteOutstandingBalance(Long outstandingBalance){
-        try{
-            jpaRepository.deleteById( outstandingBalance);
+        if (jpaRepository.existsById(outstandingBalance)) {
+            jpaRepository.deleteById(outstandingBalance);
             return true;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
+        return false;
        }
 
     @Override
@@ -57,10 +56,8 @@ public class ObalancePostgreRepository implements OutstandingBalanceRepository {
                 .toList();
     }
 
-
     @Override
     public boolean completeOutstandingBalance(Long outstandingBalance) {
-
         try {
             Optional<OutstandingBalanceModel> ob = jpaRepository.findById(outstandingBalance);
 

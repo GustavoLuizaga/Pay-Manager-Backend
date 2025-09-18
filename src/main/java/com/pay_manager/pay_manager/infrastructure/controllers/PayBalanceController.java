@@ -19,7 +19,8 @@ public class PayBalanceController {
     public PayBalanceController(PayBalanceUseCase payBalanceUseCase) {
         this.payBalanceUseCase = payBalanceUseCase;
     }
-
+    
+    @CrossOrigin(origins = "http://localhost:5173/")
     @PostMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> payBalance(@RequestBody PayBalance payBalanceRequest, @PathVariable Long id) {
         try {

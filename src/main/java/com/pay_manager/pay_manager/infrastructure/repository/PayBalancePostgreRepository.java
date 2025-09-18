@@ -4,8 +4,6 @@ import com.pay_manager.pay_manager.domain.repository.PayBalanceRepository;
 import com.pay_manager.pay_manager.infrastructure.repository.jpa.PayBalanceJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -26,7 +24,7 @@ public class PayBalancePostgreRepository implements PayBalanceRepository {
         jpaRepository.insertPayBalance(
                 oustingBalanceId,
                 datePay,
-                BigDecimal.valueOf(mountPay),
+                mountPay,
                 typePay
         );
         return true;

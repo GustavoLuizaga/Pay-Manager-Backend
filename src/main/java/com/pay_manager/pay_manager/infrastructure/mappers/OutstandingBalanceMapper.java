@@ -22,6 +22,12 @@ public class OutstandingBalanceMapper {
                 paysDomain
         );
         ouBalanceDomain.setId(outstandingBalanceModel.getId());
+
+        if (paysDomain.isEmpty()){
+            int balance = ouBalanceDomain.getMount();
+            ouBalanceDomain.setBalance( balance );
+        }
+
         return ouBalanceDomain;
     }
 }
