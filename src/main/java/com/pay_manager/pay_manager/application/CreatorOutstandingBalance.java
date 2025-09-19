@@ -14,7 +14,14 @@ public class CreatorOutstandingBalance {
 
     }
 
-    public OutstandingBalance create(OutstandingBalance request){
-        return repository.createOutstandingBalance(request);
+    public OutstandingBalance create(OutstandingBalance request ){
+
+        OutstandingBalance created = repository.createOutstandingBalance(request);
+
+        if (created.getPayBalances().isEmpty()){
+            int balance = request.getMount();
+            created.setBalance( balance );
+        }
+        return created;
     }
 }
