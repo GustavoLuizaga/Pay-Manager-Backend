@@ -47,7 +47,10 @@ public class OutstandingBalanceController {
         }
     }
 
-    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
+    @CrossOrigin(origins = {
+            "http://localhost:5173",  // Para desarrollo local
+            "https://pay-manager-frontend.vercel.app"  // Para producción
+    })
     @GetMapping
     public ResponseEntity<ApiResponse<List<OutstandingBalance>>> getAll() {
         List<OutstandingBalance> balances = getAllOutstandingBalance.getAllOutstandingBalance();
