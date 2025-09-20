@@ -20,7 +20,7 @@ public class PayBalanceController {
         this.payBalanceUseCase = payBalanceUseCase;
     }
     
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
     @PostMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> payBalance(@RequestBody PayBalance payBalanceRequest, @PathVariable Long id) {
         try {

@@ -32,7 +32,7 @@ public class OutstandingBalanceController {
         this.completeObalance = completeObalance;
         this.findOutstandingBalanceById = findOutstandingBalanceById;
     }
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
     @PostMapping
     public ResponseEntity<ApiResponse<OutstandingBalance>> create(@RequestBody OutstandingBalance request) {
         try {
@@ -47,14 +47,14 @@ public class OutstandingBalanceController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
     @GetMapping
     public ResponseEntity<ApiResponse<List<OutstandingBalance>>> getAll() {
         List<OutstandingBalance> balances = getAllOutstandingBalance.getAllOutstandingBalance();
         return ResponseEntity.ok(ApiResponse.success("Outstanding balances retrieved successfully", balances));
     }
 
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
      @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable Long id) {
         boolean deleted = removerOutstandingBalance.remove(id);
@@ -67,7 +67,7 @@ public class OutstandingBalanceController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
     @PatchMapping("/{id}/complete")
     public ResponseEntity<ApiResponse<Void>> complete(@PathVariable Long id) {
         boolean complete = completeObalance.completeObalance(id);
@@ -80,7 +80,7 @@ public class OutstandingBalanceController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:5173/")
+    @CrossOrigin(origins = "https://pay-manager-frontend.vercel.app/")
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<OutstandingBalance>>findById( @PathVariable Long id ) {
         try {
