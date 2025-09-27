@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface PayBalanceJpaRepository extends JpaRepository<PayBalanceModel, Long> {
     @Modifying
@@ -16,4 +17,7 @@ public interface PayBalanceJpaRepository extends JpaRepository<PayBalanceModel, 
                           @Param("datePay") LocalDate datePay,
                           @Param("mountPay") int mountPay,
                           @Param("payType") String payType);
+
+    List<PayBalanceModel> findByOutstandingBalanceModel_Id(Long outstandingBalanceId);
+
 }
